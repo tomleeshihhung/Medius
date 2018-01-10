@@ -57,7 +57,7 @@ class GoalsTab extends Component {
   }
   navigateSugar = () => {
     // this.navigate('GoalsSugar')
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.parentNavigation;
     navigate('GoalsSugar', { item: 'Data' });
   }
 

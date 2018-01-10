@@ -15,13 +15,8 @@ class GoalsSugar extends Component {
   state = { scrollPosition: this.props.scrollSugar }
   constructor(props) {
     super(props);
-    debugger;
   }
   componentDidMount() {
-    this.scrollView.scrollTo({ x: this.props.scrollSugar, y: 0, animated: false });
-  }
-
-  setScroll = () => {
     this.scrollView.scrollTo({ x: this.props.scrollSugar, y: 0, animated: false });
   }
 
@@ -51,8 +46,11 @@ class GoalsSugar extends Component {
       />
     );
   }
+
+  show = () => {
+    console.log('hello');
+  }
   render() {
-    //  this.setScroll();
     const { vegetables, fruits, dairy, dairyQ } = this.props;
     const data = [
       { title: 'Vegetables',
@@ -126,8 +124,9 @@ class GoalsSugar extends Component {
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center', }}
-      ref={ref => { ref.scrollTo({ x: this.props.scrollSugar, y: 0, animated: false }); }}
+      ref={ref => { this.scrollView = ref }}
       >
+
       <Button
         textStyle={[styles.buttonTextStyle, { color: 'white' }]}
         title={'Nutrition'}
@@ -167,6 +166,7 @@ class GoalsSugar extends Component {
       />
       </ScrollView>
       </View>
+          { (this.scrollView ) ? this.scrollView.scrollTo({ x: this.props.scrollSugar, y: 0, animated: false }) : null}
       <View style={styles.innerContainer}>
         <View style={styles.contentContainer}>
         <FlatList
@@ -181,6 +181,7 @@ class GoalsSugar extends Component {
         </View>
       </View>
       </View>
+
     );
   }
 }
