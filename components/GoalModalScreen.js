@@ -1,22 +1,23 @@
 import React from 'react';
+import Modal from 'react-native-modal';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import { View, Modal, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import OneButton from './OneButton';
 
 
-const GoalModalScreen = ({ children, visible, done, height }) => {
+const GoalModalScreen = ({ children, visible, done, height, dark }) => {
   const { newButtonStyle, middleInnerContainer,
     bottomInnerContainer, buttonTextStyle, containerStyle,
     innerContainerStyle, buttonContainerViewStyle } = styles;
   return (
 
   <Modal
-    visible={visible}
-    animationType='slide'
-    transparent
-    onRequestClose={() => {}}
+    isVisible={visible}
+    animationIn='slideInUp'
+    backdropOpacity={0.5}
   >
-  <View style={containerStyle}>
+  <TouchableWithoutFeedback onPress={done}>
+  <View style={[containerStyle, { backgroundColor: dark }]}>
   <View style={[innerContainerStyle, { height }]}>
 
   <View style={middleInnerContainer}>
@@ -34,13 +35,24 @@ const GoalModalScreen = ({ children, visible, done, height }) => {
 
   </View>
   </View>
+    </ TouchableWithoutFeedback>
   </Modal>
+
 );
 };
 
 const styles = StyleSheet.create({
   containerStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0)',
+    position: 'relative',
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+//    marginLeft: 20,
+  //  marginLeft: 20,
+  },
+  darkContainerStyle: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     position: 'relative',
     flex: 1,
     justifyContent: 'flex-end',
@@ -56,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingLeft: 15,
     paddingRight: 15,
-    borderRadius: 5
+    borderRadius: 10,
   },
   middleInnerContainer: {
     height: '80%',
@@ -88,7 +100,7 @@ const styles = StyleSheet.create({
   },
   newButtonStyle: {
     backgroundColor: '#65B4CE',
-    borderRadius: 5,
+    borderRadius: 10,
   },
   buttonTextStyle: {
     textAlign: 'center',

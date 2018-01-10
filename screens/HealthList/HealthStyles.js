@@ -1,20 +1,31 @@
 import { Constants } from 'expo';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: 'white',
+    backgroundColor: '#FAFBFC',
+
   //  paddingLeft: 30,
   //  paddingRight: 30,
 //    backgroundColor: 'purple'
   },
   contentContainer: {
-    flex: 1,
-  //  paddingLeft: 25,
-  //  paddingRight: 25,
+    height: (SCREEN_HEIGHT - 122) * 0.8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    borderWidth: 0,
+    borderRadius: 10,
+    margin: 20,
+    marginTop: 0,
+  //  paddingLeft: 10,
+  //  paddingRight: 10,
     backgroundColor: 'white',
   },
 

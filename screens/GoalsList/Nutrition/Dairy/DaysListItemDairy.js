@@ -1,55 +1,62 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import { vegetablesServingsChanged, vegetablesChanged, goalsChanged } from './goalsActions';
+import {
+  dairyDaysChanged, dairyChanged
+} from './goalsActionsDairy';
+import {
+  goalsChanged
+} from '../../goalsActions';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 10;
-class ServingsListItem extends Component {
+const MODAL_HEIGHT = (SCREEN_HEIGHT * 0.6) - 20;
+const IOS_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.2)) / 7;
+const ANDROID_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.25)) / 7;
+const LIST_HEIGHT = Platform.OS === 'android' ? ANDROID_LIST_HEIGHT : IOS_LIST_HEIGHT;
+
+class DaysListItemDairy extends Component {
   state = { selectedList: [] }
 
   onPress = async () => {
     this.daysSelectedDays();
   }
-  calculateStatus = (day, servings) => {
+  calculateStatus = (day) => {
   let a = 0;
   if (day === 'Daily') {
     a = 7;
   } else {
   a = Number(day);
   }
-  const b = Number(servings);
-  const value = (a * b) / 7;
-    if (value < 1) {
-      return 'Concerning';
-    }
-    if (value >= 1 && value < 2) {
+    if (a < 2) {
       return 'Poor';
     }
-    if (value >= 2 && value < 3) {
+    if (a >= 2 && a < 4) {
+      console.log('returning good');
       return 'Good';
     }
-    if (value >= 3 && value < 5) {
+    if (a >= 4 && a <= 6) {
+      console.log('returning great');
       return 'Great';
     }
-    if (value >= 5) {
+    if (a >= 7) {
+      console.log('returning excellent');
       return 'Excellent';
     }
   }
   daysSelectedDays = async () => {
-    const { vegetablesServings, data } = this.props;
-  //  this.props.vegetablesChanged({ prop: 'vegetablesServingsSelected', value: [] });
+    const { dairyDays, data } = this.props;
+  //  this.props.dairyChanged({ prop: 'dairyDaysSelected', value: [] });
 
-    if (vegetablesServings[data.key].selected === 'false') {
-      const array = [0, 1, 2, 3, 4, 5, 6, 7];
+    if (dairyDays[data.key].selected === 'false') {
+      const array = [0, 1, 2, 3, 4, 5, 6];
       await array.map((obj, i) => {
-        return this.props.vegetablesServingsChanged({ key: i, value: 'false' });
+        return this.props.dairyDaysChanged({ key: i, value: 'false' });
       });
-      this.props.vegetablesServingsChanged({ key: data.key, value: 'true' });
-      this.props.vegetablesChanged({ prop: 'vegetablesServingsSelected', value: data.title });
-      const newStatus = this.calculateStatus(this.props.vegetablesDaysSelected, data.title);
+      this.props.dairyDaysChanged({ key: data.key, value: 'true' });
+      this.props.dairyChanged({ prop: 'dairyDaysSelected', value: data.title });
+      const newStatus = this.calculateStatus(data.title);
       this.props.goalsChanged({ prop: 'newStatus', value: newStatus });
     }
   }
@@ -100,7 +107,9 @@ class ServingsListItem extends Component {
         <TouchableOpacity style={styles.container} onPress={() => this.onPress()} >
           <View style={styles.subContainer1}>
             <View style={styles.rowContainer1}>
-            <Text style={[styles.textStyle, this.selectColor()]}>{data.title}</Text>
+            <Text
+            style={[styles.textStyle, this.selectColor()]}
+            >{data.title === 7 ? 'Daily' : data.title}</Text>
             </View>
             <View style={styles.rowContainer2}>
             {this.selectTick()}
@@ -150,23 +159,20 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: responsiveFontSize(2.2),
-    fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   chevronStyle: {
     fontSize: responsiveFontSize(2.2),
-    fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   subTextStyle: {
     fontSize: responsiveFontSize(2),
-    fontFamily: 'circular',
   //  paddingTop: '3%',
   //  paddingBottom: '10%',
     color: '#6D707D',
@@ -174,14 +180,14 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
   return {
-    vegetablesServings: state.nutritionGoalsVegetables.vegetablesServings,
-    vegetablesServingsSelected: state.nutritionGoalsVegetables.vegetablesServingsSelected,
-    vegetablesDaysSelected: state.nutritionGoalsVegetables.vegetablesDaysSelected
+    dairyDays: state.nutritionGoalsDairy.dairyDays,
+    dairyDaysSelected: state.nutritionGoalsDairy.dairyDaysSelected,
+    dairyServingsSelected: state.nutritionGoalsDairy.dairyServingsSelected,
   };
 };
 
 export default connect(mapStateToProps,
-  { vegetablesServingsChanged,
-    vegetablesChanged,
-    goalsChanged,
-  })(ServingsListItem);
+  { dairyDaysChanged,
+    dairyChanged,
+    goalsChanged
+  })(DaysListItemDairy);

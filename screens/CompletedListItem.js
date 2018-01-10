@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 5;
+const LIST_HEIGHT = ((SCREEN_HEIGHT - 122) * 0.8) / 6;
 
 const checkColor = (color) => {
   switch (color) {
@@ -18,88 +18,83 @@ const checkColor = (color) => {
     case 'Concerning':
       return '#ff0000';
     case 'Take the quiz':
-      return '#B0B3C2';
+      return '#3abdee';
     case 'Not Available':
       return '#B0B3C2';
     default:
-      return '#ff0000';
+      return '#B0B3C2';
   }
 };
 //   <View style={[styles.container, { backgroundColor: checkColor(data.status) }]}>
-/*
-<View style={styles.subContainer2}>
-  <Text
-  style={[styles.healthStyle, { color: checkColor(data.status) }]}
-  >{data.status}
-  </Text>
-  <Text style={[styles.textStyle, { color: checkColor(data.status) }]}>></Text>
-</View>
-*/
-class NutritionListItem extends Component {
+class CompletedListItem extends Component {
   render() {
     const { data, onPress } = this.props;
     return (
-  //    <TouchableOpacity onPress={onPress}>
 
       <View style={styles.container}>
-        <View style={styles.subContainer1}>
-          <Text style={[styles.textStyle, { color: checkColor(data.status) }]}>{data.title}</Text>
-          <Text style={[styles.subTextStyle]}>
-          {data.subTitle}{data.subSubTitle}
-          </Text>
-        </View>
-        <TouchableOpacity onPress={onPress} style={styles.subContainer2}>
-          <Text style={[styles.textStyle]}>></Text>
-        </TouchableOpacity>
-
+      <View style={styles.subContainer1}>
+      <Text style={styles.textStyle}>{data.title}</Text>
+      </View>
+      <TouchableOpacity onPress={onPress} style={styles.subContainer2}>
+      <Text style={[styles.healthStyle, { color: checkColor(data.status) }]}>{data.status}</Text>
+      <Text style={[styles.chevronStyle, { color: checkColor(data.status) }]}>></Text>
+      </TouchableOpacity>
       </View>
 
-    //  </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: LIST_HEIGHT,
+    height: LIST_HEIGHT - 1,
     flexDirection: 'row',
-
+  //  paddingLeft: 25,
+  //  paddingRight: 25,
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   subContainer1: {
-  //  height: LIST_HEIGHT,
-    paddingLeft: 25,
+    flex: 1,
+  //  paddingLeft: 20,
     justifyContent: 'center',
+    paddingLeft: 20,
+    backgroundColor: 'white',
   },
   subContainer2: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingRight: 25
+    paddingRight: 20,
+    backgroundColor: 'white',
+  //  backgroundColor: 'red'
+  //  paddingRight: 20
+
   },
   textStyle: {
     fontSize: responsiveFontSize(2.2),
-    fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
+    fontFamily: 'circular',
     color: '#3C3E47',
-    fontWeight: '500',
   },
-  subTextStyle: {
-    fontSize: responsiveFontSize(2),
-    fontFamily: 'brown-light',
-    paddingTop: '3%',
+  chevronStyle: {
+    fontSize: responsiveFontSize(2.5),
+  //  paddingTop: '10%',
   //  paddingBottom: '10%',
+    fontFamily: 'circular',
     color: '#3C3E47',
   },
   healthStyle: {
     fontSize: responsiveFontSize(2.2),
+    justifyContent: 'center',
+  //  paddingTop: '10%',
+  //  paddingBottom: '10%',
     fontFamily: 'circular',
-    paddingTop: '10%',
-    paddingBottom: '10%',
   //  color: checkColor(),
-    paddingRight: 25
+    paddingRight: responsiveWidth(5)
   }
 });
 
-export default NutritionListItem;
+export default CompletedListItem;

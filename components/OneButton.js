@@ -7,7 +7,7 @@ const OneButton = ({ onPress, title, buttonStyle, containerViewStyle, textStyle,
   const { buttonContainerViewStyle, newButtonStyle, buttonTextStyle } = styles;
   const buttonColor = () => {
     if (select) {
-      return { backgroundColor: '#439DBB' };
+      return { backgroundColor: '#009fff' };
     }
   };
   const buttonText = () => {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   buttonTextStyle: {
     textAlign: 'center',
     fontFamily: 'circular',
-    color: '#439DBB',
+    color: '#65B4CE',
     fontSize: responsiveFontSize(2.4)
   }
 

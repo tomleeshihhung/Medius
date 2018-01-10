@@ -4,34 +4,22 @@ import {
   WATER_REMIND_ME_CHANGED,
   WATER_REMIND_ME_SELECTED_ADD,
   WATER_REMIND_ME_SELECTED_DELETE,
-  WATER_DAYS_CHANGED,
   WATER_SERVINGS_CHANGED,
-} from '../../screens/GoalsList/goalsTypes';
+} from '../../screens/GoalsList/Nutrition/Water/goalsTypesWater';
 
 const INITIAL_STATE = {
   RemindMe: '',
-  waterDays: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: 'Daily', key: 6, selected: 'false' },
-  ],
-  waterDaysSelected: 'Daily',
-
   waterServings: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: '7', key: 6, selected: 'false' },
-  { title: '8', key: 7, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
+  { title: 8, key: 7, selected: 'false' },
   ],
-  waterServingsSelected: '',
+  waterServingsSelected: 1,
 
   waterRemindMe: [
   { title: 'Daily', key: 0, selected: 'false' },
@@ -72,14 +60,6 @@ export default (state = INITIAL_STATE, action) => {
          waterRemindMeSelected:
          state.waterRemindMeSelected.filter(item => item !== action.payload),
     };
-    case WATER_DAYS_CHANGED:
-    return update(state, {
-      waterDays: {
-        [action.payload.key]: {
-          selected: { $set: action.payload.value }
-        },
-      }
-    });
     case WATER_SERVINGS_CHANGED:
     return update(state, {
       waterServings: {

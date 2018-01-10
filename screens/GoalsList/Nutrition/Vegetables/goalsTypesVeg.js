@@ -6,13 +6,6 @@ export const VEGETABLES_REMIND_ME_SELECTED_DELETE = 'vegetables_remind_me_select
 export const VEGETABLES_DAYS_CHANGED = 'vegetables_days_changed';
 export const VEGETABLES_SERVINGS_CHANGED = 'vegetables_servings_changed';
 
-export const FRUITS_CHANGED = 'vegetables_changed';
-export const FRUITS_REMIND_ME_CHANGED = 'vegetables_remind_me_changed';
-export const FRUITS_REMIND_ME_SELECTED_ADD = 'vegetables_remind_me_selected_add';
-export const FRUITS_REMIND_ME_SELECTED_DELETE = 'vegetables_remind_me_selected_delete';
-export const FRUITS_DAYS_CHANGED = 'vegetables_days_changed';
-export const FRUITS_SERVINGS_CHANGED = 'vegetables_servings_changed';
-
 export const DAIRY_CHANGED = 'vegetables_changed';
 export const DAIRY_REMIND_ME_CHANGED = 'vegetables_remind_me_changed';
 export const DAIRY_REMIND_ME_SELECTED_ADD = 'vegetables_remind_me_selected_add';

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-nati
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 6;
+const LIST_HEIGHT = ((SCREEN_HEIGHT - 122) * 0.8) / 6;
 
 const checkColor = (color) => {
   switch (color) {
@@ -18,7 +18,7 @@ const checkColor = (color) => {
     case 'Concerning':
       return '#ff0000';
     case 'Take the quiz':
-      return '#B0B3C2';
+      return '#3abdee';
     case 'Not Available':
       return '#B0B3C2';
     default:
@@ -37,7 +37,7 @@ class ListItem extends Component {
       </View>
       <TouchableOpacity onPress={onPress} style={styles.subContainer2}>
       <Text style={[styles.healthStyle, { color: checkColor(data.status) }]}>{data.status}</Text>
-      <Text style={[styles.textStyle, { color: checkColor(data.status) }]}>></Text>
+      <Text style={[styles.chevronStyle, { color: checkColor(data.status) }]}>></Text>
       </TouchableOpacity>
       </View>
 
@@ -47,31 +47,40 @@ class ListItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: LIST_HEIGHT,
+    height: LIST_HEIGHT - 1,
     flexDirection: 'row',
   //  paddingLeft: 25,
   //  paddingRight: 25,
-  //  backgroundColor: 'red'
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   subContainer1: {
     flex: 1,
   //  paddingLeft: 20,
     justifyContent: 'center',
-    paddingLeft: 25,
+    paddingLeft: 20,
+    backgroundColor: 'white',
   },
   subContainer2: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingRight: 25,
+    paddingRight: 20,
+    backgroundColor: 'white',
   //  backgroundColor: 'red'
   //  paddingRight: 20
 
   },
   textStyle: {
     fontSize: responsiveFontSize(2.2),
-    fontWeight: '500',
+  //  paddingTop: '10%',
+  //  paddingBottom: '10%',
+    fontFamily: 'circular',
+    color: '#3C3E47',
+  },
+  chevronStyle: {
+    fontSize: responsiveFontSize(2.5),
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     fontFamily: 'circular',
@@ -79,8 +88,9 @@ const styles = StyleSheet.create({
   },
   healthStyle: {
     fontSize: responsiveFontSize(2.2),
-    paddingTop: '10%',
-    paddingBottom: '10%',
+    justifyContent: 'center',
+  //  paddingTop: '10%',
+  //  paddingBottom: '10%',
     fontFamily: 'circular',
   //  color: checkColor(),
     paddingRight: responsiveWidth(5)

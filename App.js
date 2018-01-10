@@ -1,10 +1,13 @@
 import firebase from 'firebase';
-import Expo, { Font, AppLoading } from 'expo';
+import { Font, AppLoading } from 'expo';
+import * as Animatable from 'react-native-animatable';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import React from 'react';
+import { Icon } from 'react-native-elements';
 import { StyleSheet, View, Platform } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
-import store from './store';
+import configureStore from './store';
 import { SugarQs, SugarQ1, SugarQ2, SugarQ3, SugarQ4 } from './screens/Qs/SugarQs';
 import { ExerciseQs, ExerciseQ1,
          ExerciseQ2, ExerciseQ3, ExerciseQ4 } from './screens/Qs/ExerciseQs';
@@ -16,9 +19,11 @@ import { SleepQs } from './screens/Qs/SleepQs';
 import { MoodQs } from './screens/Qs/MoodQs';
 import { AlcoholSmokingQs } from './screens/Qs/AlcoholSmokingQs';
 import { Auth, Welcome, DailyTab, HealthTab,
-         GoalsTab, Completed, Rewards, OnboardList } from './screens';
-import { Nutrition } from './screens/HealthList';
+         GoalsTab, CompletedTab, Rewards, OnboardList } from './screens';
+import { HealthNutrition } from './screens/HealthList';
+import { CompletedNutrition } from './screens/CompletedList';
 import { NewGoal } from './screens/GoalsList';
+import GoalsSugar from './screens/GoalsList/Sugar/GoalsSugar';
 /*
           export AuthScreen from './AuthScreen';
           export Daily from './Daily';
@@ -33,8 +38,22 @@ import { NewGoal } from './screens/GoalsList';
 
 //const require = require('./assets/fonts/circular.ttf');
 
+const zoomOut = {
+  0: {
+      color: '#3C3E47'
+    },
+  0.5: {
+    color: 'rgba(58, 189, 238, 0.5)'
+  },
+  1: {
+    color: '#3C3E47'
+  },
+
+};
+
 export default class App extends React.Component {
   state = { fontLoaded: false }
+
 
   componentWillMount() {
     const config = {
@@ -46,6 +65,10 @@ export default class App extends React.Component {
       messagingSenderId: '177790404181'
     };
     firebase.initializeApp(config);
+
+    Animatable.initializeRegistryWithDefinitions({
+      zoomOut
+    });
   }
   componentDidMount() {
     this.loadFont();
@@ -61,10 +84,31 @@ export default class App extends React.Component {
   }
 
   render() {
+    const { persistor, store } = configureStore();
     if (this.state.fontLoaded) {
     const MainNavigator = TabNavigator({
-      Welcome: { screen: Welcome },
+      Welcome: {
+        screen: Welcome,
+      },
       Auth: { screen: Auth },
+      NutritionQs: {
+        screen: StackNavigator({
+            NutritionQ: { screen: NutritionQs },
+            NutritionQ1: { screen: NutritionQ1 },
+            NutritionQ2: { screen: NutritionQ2 },
+            NutritionQ3: { screen: NutritionQ3 },
+            NutritionQ4: { screen: NutritionQ4 },
+            NutritionQ5: { screen: NutritionQ5 },
+            NutritionQ6: { screen: NutritionQ6 },
+            NutritionQ7: { screen: NutritionQ7 },
+            NutritionQ8: { screen: NutritionQ8 },
+            NutritionQ9: { screen: NutritionQ9 },
+          },
+          {
+            headerMode: 'none',
+          }
+          )
+      },
       Onboard: {
         screen: StackNavigator({
             OnboardList: { screen: OnboardList },
@@ -100,35 +144,165 @@ export default class App extends React.Component {
       },
       main: {
         screen: TabNavigator({
-          Daily: { screen: DailyTab },
+          Daily: {
+            screen: DailyTab,
+            navigationOptions: {
+              title: 'Daily',
+              tabBarLabel: 'Daily',
+              tabBarIcon: ({ tintColor }) => (
+                <Icon
+                  name='calendar'
+                  type='feather'
+                  color={tintColor}
+                  size={23}
+                  //component={TouchableOpacity}
+                />
+              )
+            }
+         },
           Health: { //screen: HealthList
             screen: StackNavigator({
               HealthTab: { screen: HealthTab },
-              Nutrition: { screen: Nutrition },
+              HealthNutrition: { screen: HealthNutrition },
             },
             {
-            headerMode: 'none',
+            headerMode: 'float',
+            title: 'Health',
             }
             ),
+            navigationOptions: {
+              title: 'Health',
+              tabBarLabel: 'Health',
+              tabBarIcon: ({ tintColor }) => (
+                <Icon
+                  name='activity'
+                  type='feather'
+                  color={tintColor}
+                  size={23}
+                  //component={TouchableOpacity}
+                />
+              )
+            }
           },
-          Goals: { //screen: HealthList
+          Goals: {
+            screen: TabNavigator({
+              GoalsTab: {
+                screen: StackNavigator({
+                  GoalsTab: { screen: GoalsTab, navigationOptions: { tabBarVisible: false } },
+                  NewGoal: { screen: NewGoal, navigationOptions: { tabBarVisible: false } },
+                }),
+                lazy: true,
+              },
+              GoalsSugar: {
+                screen: StackNavigator({
+                  GoalsSugar: { screen: GoalsSugar, navigationOptions: { tabBarVisible: false } },
+                  NewGoal: { screen: NewGoal, navigationOptions: { tabBarVisible: false } },
+                }),
+              },
+            },
+            ),
+            navigationOptions: {
+              title: 'Goals',
+              tabBarLabel: 'Goals',
+              tabBarIcon: ({ tintColor }) => (
+                <Icon
+                  name='target'
+                  type='feather'
+                  color={tintColor}
+                  size={23}
+                  //component={TouchableOpacity}
+                />
+              )
+            }
+          },
+          Completed: { //screen: HealthList
             screen: StackNavigator({
-              GoalsTab: { screen: GoalsTab },
-              NewGoal: { screen: NewGoal },
+              CompletedTab: { screen: CompletedTab },
+              CompletedNutrition: { screen: CompletedNutrition },
             },
             {
-            headerMode: 'none',
+            headerMode: 'float',
             }
             ),
+            navigationOptions: {
+              title: 'Completed',
+              tabBarLabel: 'Completed',
+              tabBarIcon: ({ tintColor }) => (
+                <Icon
+                  name='check-square'
+                  type='feather'
+                  color={tintColor}
+                  size={23}
+                  //component={TouchableOpacity}
+                />
+              )
+            }
           },
-          Completed: { screen: Completed },
-          Rewards: { screen: Rewards },
+          Rewards: { screen: Rewards,
+            navigationOptions: {
+              title: 'Rewards',
+              tabBarLabel: 'Rewards',
+              tabBarIcon: ({ tintColor }) => (
+                <Icon
+                  name='award'
+                  type='feather'
+                  color={tintColor}
+                  size={23}
+                  //component={TouchableOpacity}
+                />
+              )
+            }
+           },
+
         },
         {
+
         tabBarPosition: 'bottom',
-        headerMode: 'none',
-        tintColor: 'blue',
-      //  backgroundColor: 'blue',
+        //tabBarComponent: TabBarTop,
+        tintColor: '#3abdee',
+        backgroundColor: 'white',
+        navigationOptions: {
+          tabBarVisible: true,
+        //  backgroundColor: 'white'
+        },
+        swipeEnabled: false,
+        lazy: true,
+        animationEnabled: false,
+        tabBarOptions: {
+          backgroundColor: 'white',
+          activeTintColor: '#3abdee',  // Color of tab when pressed
+          inactiveTintColor: '#b5b5b5', // Color of tab when not pressed
+          upperCaseLabel: false,
+          scrollEnabled: true,
+          indicatorStyle: {
+            backgroundColor: 'white'
+          },
+          showIcon: true,
+          iconStyle: {
+            width: 25,
+            height: 25,
+          },
+          labelStyle: {
+            fontSize: Platform.OS === 'android' ? 10.5 : 10.5,
+            width: Platform.OS === 'android' ? 80 : 55,
+            height: Platform.OS === 'android' ? 14 : 12,
+            marginTop: Platform.OS === 'android' ? -0.1 : 14.5,
+            marginBottom: Platform.OS === 'android' ? -0.1 : 4,
+            backgroundColor: 'white'
+          },
+          style: {
+            //width: '100%',
+            backgroundColor: 'white',
+            height: (Platform.OS === 'android') ? 48 : 48,
+            borderTopWidth: 1.5,
+            borderTopColor: '#e6e6e6',
+          },
+          tabStyle: {
+        //    width: 100,
+            backgroundColor: 'white',
+          },
+        }
+      //
         }
       )
       }
@@ -142,15 +316,17 @@ export default class App extends React.Component {
       lazy: true,
       animationEnabled: false,
       tabBarPosition: 'bottom',
-    //  backgroundColor: 'white'
+      backgroundColor: 'white',
     }
     );
 
     return (
       <Provider store={store}>
+      <PersistGate persistor={persistor}>
         <View style={styles.container}>
           <MainNavigator />
         </View>
+      </PersistGate>
       </Provider>
     );
   }
@@ -161,8 +337,8 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:
-    Platform.OS === 'android' ? Expo.Constants.statusBarHeight : undefined,
+    marginTop: 0,
+  //  Platform.OS === 'android' ? Expo.Constants.statusBarHeight : undefined,
     backgroundColor: 'white'
   },
 });

@@ -5,6 +5,8 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
   //  paddingLeft: 25,
 //    paddingRight: 25,
 //    backgroundColor: 'purple'

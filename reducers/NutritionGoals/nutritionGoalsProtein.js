@@ -4,34 +4,36 @@ import {
   PROTEIN_REMIND_ME_CHANGED,
   PROTEIN_REMIND_ME_SELECTED_ADD,
   PROTEIN_REMIND_ME_SELECTED_DELETE,
+  PROTEIN_REMIND_ME_VALUE_ADD,
+  PROTEIN_REMIND_ME_VALUE_DELETE,
   PROTEIN_DAYS_CHANGED,
   PROTEIN_SERVINGS_CHANGED,
-} from '../../screens/GoalsList/goalsTypes';
+} from '../../screens/GoalsList/Nutrition/Protein/goalsTypesProtein';
 
 const INITIAL_STATE = {
-  RemindMe: '',
+  proteinRemindMeValue: [],
   proteinDays: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: 'Daily', key: 6, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
   ],
-  proteinDaysSelected: 'Daily',
+  proteinDaysSelected: 7,
 
   proteinServings: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: '7', key: 6, selected: 'false' },
-  { title: '8', key: 7, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
+  { title: 8, key: 7, selected: 'false' },
   ],
-  proteinServingsSelected: '',
+  proteinServingsSelected: 1,
 
   proteinRemindMe: [
   { title: 'Daily', key: 0, selected: 'false' },
@@ -71,6 +73,17 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
          proteinRemindMeSelected:
          state.proteinRemindMeSelected.filter(item => item !== action.payload),
+    };
+    case PROTEIN_REMIND_ME_VALUE_ADD :
+    return {
+        ...state,
+        proteinRemindMeValue: [...state.proteinRemindMeValue, action.payload]
+    };
+    case PROTEIN_REMIND_ME_VALUE_DELETE :
+    return {
+        ...state,
+         proteinRemindMeValue:
+         state.proteinRemindMeValue.filter(item => item !== action.payload),
     };
     case PROTEIN_DAYS_CHANGED:
     return update(state, {

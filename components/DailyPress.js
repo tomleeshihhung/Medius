@@ -5,16 +5,25 @@ import { Icon } from 'react-native-elements';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 162) / 2;
+const LIST_HEIGHT = ((SCREEN_HEIGHT - 93) * (0.8)) / 2;
 
-const DailyPress = ({ title, value, onPressX, onPressCheck, day }) => {
+const DailyPress = ({ title, value, onPressX, onPressCheck, day, onPressMore }) => {
   const checkDay = () => {
   const today = moment(new Date()).format('YYYY-MM-DD');
   if (day === today) {
-    return 'today';
+    return <Text style={styles.textStyle}> today</ Text>;
   }
-  return moment(day).format('dddd').toLowerCase();
-};
+  return <Text style={styles.textStyle}> {moment(day).format('dddd').toLowerCase()}</ Text>;
+  };
+  const checkServing = () => {
+  if (value === undefined) {
+    return <Text style={styles.textStyle}>1 serving</ Text>;
+  }
+  if (value === 1) {
+    return <Text style={styles.textStyle}>{value} serving</ Text>;
+  }
+    return <Text style={styles.textStyle}>{value} servings</ Text>;
+  };
     //const today = moment(new Date()).format('YYYY-MM-DD');
   return (
     <View style={styles.container}>
@@ -22,15 +31,8 @@ const DailyPress = ({ title, value, onPressX, onPressCheck, day }) => {
         <View style={styles.subContainer1row1}>
           <Text
           style={styles.boldTextStyle}
-          >{title}</Text>
-        </View>
-        <View style={styles.subContainer1row2}>
-        <Text
-        style={styles.boldTextStyle}
-        >{value} serving </Text>
-        <Text
-        style={styles.boldTextStyle}
-        >{checkDay()} </Text>
+          >{title} </Text>
+          {checkServing()}{checkDay()}
         </View>
         <View style={styles.subContainer1row3}>
           <Icon
@@ -39,6 +41,7 @@ const DailyPress = ({ title, value, onPressX, onPressCheck, day }) => {
             color={'#3C3E47'}
             size={25}
             component={TouchableOpacity}
+            onPress={onPressMore}
           />
         </View>
       </View>
@@ -68,7 +71,8 @@ const DailyPress = ({ title, value, onPressX, onPressCheck, day }) => {
 const styles = StyleSheet.create({
   container: {
     height: LIST_HEIGHT,
-    marginTop: 5,
+    paddingTop: 5,
+    borderRadius: 10,
   //  paddingLeft: 25,
   //  paddingRight: 25,
     backgroundColor: 'white'
@@ -76,8 +80,9 @@ const styles = StyleSheet.create({
   subContainer1: {
     flex: 3,
     flexDirection: 'row',
-    paddingLeft: 25,
-    paddingRight: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: 'white',
   //  paddingLeft: 20,
     justifyContent: 'center',
   //  backgroundColor: 'pink'
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
   subContainer2xRow1: {
     flex: 1,
     aspectRatio: 5 / 4,
-    backgroundColor: '#009fff',
+    backgroundColor: '#4CD964',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'white',
@@ -122,17 +127,22 @@ const styles = StyleSheet.create({
   subContainer2xRow2: {
     flex: 1,
     aspectRatio: 5 / 4,
-    backgroundColor: '#4CD964',
+    backgroundColor: '#009fff',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: 'white',
     borderWidth: 2,
   },
   boldTextStyle: {
-    fontSize: responsiveFontSize(2.2),
+    fontSize: responsiveFontSize(2.3),
     fontFamily: 'circular-bold',
   //  paddingTop: '10%',
     paddingRight: '2%',
+    color: '#3C3E47',
+  },
+  textStyle: {
+    fontSize: responsiveFontSize(2.3),
+    fontFamily: 'circular',
     color: '#3C3E47',
   },
 });

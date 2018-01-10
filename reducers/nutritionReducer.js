@@ -1,3 +1,4 @@
+//import { PERSIST_REHYDRATE } from 'redux-persist/lib/constants';
 import {
   NUTRITION_CHANGED,
   NUTRITION_CALCULATE,
@@ -20,32 +21,32 @@ const INITIAL_STATE = {
   vegetables: {
     value: 0,
     score: 0,
-    status: 'Concerning',
+    status: 'Take the quiz',
   },
   fruits: {
     value: 0,
     score: 0,
-    status: 'Poor',
+    status: 'Take the quiz',
   },
   proteins: {
     value: 0,
     score: 0,
-    status: 'Concerning',
+    status: 'Take the quiz',
   },
   dairy: {
     value: 0,
     score: 0,
-    status: 'Poor',
+    status: 'Take the quiz',
   },
   water: {
     value: 0,
     score: 0,
-    status: 'Poor',
+    status: 'Take the quiz',
   },
   nutritionFinal: {
     value: 0,
     score: 0,
-    status: 'Concerning',
+    status: 'Take the quiz',
   },
 };
 

@@ -1,12 +1,12 @@
 import React from 'react';
+import Modal from 'react-native-modal';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import { Text, View, Modal, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import OneButton from './OneButton';
-
 
 const ModalScreen = ({ children, visible, title, done }) => {
   const { newButtonStyle, topInnerContainer, middleInnerContainer,
-    bottomInnerContainer, buttonTextStyle, containerStyle,
+    bottomInnerContainer, buttonTextStyle,
     innerContainerStyle, buttonContainerViewStyle } = styles;
   return (
 
@@ -15,21 +15,22 @@ const ModalScreen = ({ children, visible, title, done }) => {
     <Text style={{ fontSize: responsiveFontSize(2) }}> {subTitle} </Text>
     </View>
     */
+
   <Modal
-    visible={visible}
-    animationType='fade'
-    transparent
-    onRequestClose={() => {}}
+    isVisible={visible}
+    animationIn='slideInUp'
+    backdropOpacity={0.5}
+    style={{ margin: 15 }}
   >
-  <View style={containerStyle}>
+  <TouchableWithoutFeedback onPress={done}>
   <View style={innerContainerStyle}>
   <View style={topInnerContainer}>
   <Text style={{ fontSize: responsiveFontSize(3) }}> {title} </Text>
   </View>
   <View
     style={{
-      height: 2,
-      width: '95%',
+      height: 1,
+      width: '100%',
       backgroundColor: '#F0F0F0',
     }}
   />
@@ -39,8 +40,8 @@ const ModalScreen = ({ children, visible, title, done }) => {
   </View>
   <View
     style={{
-      height: 2,
-      width: '95%',
+      height: 1,
+      width: '100%',
       backgroundColor: '#F0F0F0',
     }}
   />
@@ -55,15 +56,16 @@ const ModalScreen = ({ children, visible, title, done }) => {
   </View>
 
   </View>
-  </View>
+  </TouchableWithoutFeedback>
   </Modal>
+
 );
 };
 
 const styles = StyleSheet.create({
   innerContainerStyle: {
     height: '60%',
-    width: '90%',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
   //  lineHeight: 40
   },
   containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  //  backgroundColor: 'rgba(0, 0, 0, 0.5)',
     position: 'relative',
     flex: 1,
     justifyContent: 'center',
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   newButtonStyle: {
-    backgroundColor: '#65B4CE',
+    backgroundColor: '#009fff',
     borderRadius: 5,
   },
   buttonTextStyle: {

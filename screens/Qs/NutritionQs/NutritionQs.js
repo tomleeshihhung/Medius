@@ -1,6 +1,5 @@
 import { Constants } from 'expo';
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -12,14 +11,12 @@ class NutritionQs extends Component {
     const { container, contentContainer, titleSection,
     categorySection, lastSection,
     textSection, textStyle } = styles;
-    const { dispatch, navigate } = this.props.navigation;
-    const backAction = NavigationActions.back({
-  key: null
-});
+    const { navigate } = this.props.navigation;
+  //  const backAction = NavigationActions.back({ key: null});
     return (
       <View style={container}>
       <HeaderSection
-      left={<BackButton onPress={() => dispatch(backAction)} />}
+      left={<BackButton onPress={() => navigate('Health')} />}
       />
       <View style={contentContainer}>
         <View style={titleSection}>
@@ -29,7 +26,7 @@ class NutritionQs extends Component {
         </View>
         <View style={textSection}>
         <Text style={textStyle}>
-        {'Help us understand your general diet to set your personalised Medius goals.'}
+        {'Help us understand your general diet to set your personalised nutrition goals.'}
         </Text>
         </View>
         <View style={categorySection}>
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#65B4CE',
+    backgroundColor: '#3abdee',
   //  paddingLeft: 30,
   //  paddingRight: 30,
   },

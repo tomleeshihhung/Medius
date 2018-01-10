@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import {
-  vegetablesDaysChanged, vegetablesChanged, goalsChanged
-} from './goalsActions';
+import { proteinServingsChanged, proteinChanged } from './goalsActionsProtein';
+import { goalsChanged } from '../../goalsActions';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 10;
-class DaysListItem extends Component {
+const MODAL_HEIGHT = (SCREEN_HEIGHT * 0.68) - 20;
+const IOS_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.2)) / 8;
+const ANDROID_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.25)) / 8;
+const LIST_HEIGHT = Platform.OS === 'android' ? ANDROID_LIST_HEIGHT : IOS_LIST_HEIGHT;
+class ServingsListItemProtein extends Component {
   state = { selectedList: [] }
 
   onPress = async () => {
@@ -41,18 +43,17 @@ class DaysListItem extends Component {
     }
   }
   daysSelectedDays = async () => {
-    const { vegetablesDays, data } = this.props;
-  //  this.props.vegetablesChanged({ prop: 'vegetablesDaysSelected', value: [] });
+    const { proteinServings, data } = this.props;
+  //  this.props.proteinChanged({ prop: 'proteinServingsSelected', value: [] });
 
-    if (vegetablesDays[data.key].selected === 'false') {
-      const array = [0, 1, 2, 3, 4, 5, 6];
+    if (proteinServings[data.key].selected === 'false') {
+      const array = [0, 1, 2, 3, 4, 5, 6, 7];
       await array.map((obj, i) => {
-        return this.props.vegetablesDaysChanged({ key: i, value: 'false' });
+        return this.props.proteinServingsChanged({ key: i, value: 'false' });
       });
-      this.props.vegetablesDaysChanged({ key: data.key, value: 'true' });
-      this.props.vegetablesChanged({ prop: 'vegetablesDaysSelected', value: data.title });
-      const newStatus = this.calculateStatus(data.title, this.props.vegetablesServingsSelected);
-      console.log(newStatus);
+      this.props.proteinServingsChanged({ key: data.key, value: 'true' });
+      this.props.proteinChanged({ prop: 'proteinServingsSelected', value: data.title });
+      const newStatus = this.calculateStatus(this.props.proteinDaysSelected, data.title);
       this.props.goalsChanged({ prop: 'newStatus', value: newStatus });
     }
   }
@@ -153,20 +154,23 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: responsiveFontSize(2.2),
+    fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   chevronStyle: {
     fontSize: responsiveFontSize(2.2),
+    fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   subTextStyle: {
     fontSize: responsiveFontSize(2),
+    fontFamily: 'circular',
   //  paddingTop: '3%',
   //  paddingBottom: '10%',
     color: '#6D707D',
@@ -174,14 +178,14 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
   return {
-    vegetablesDays: state.nutritionGoalsVegetables.vegetablesDays,
-    vegetablesDaysSelected: state.nutritionGoalsVegetables.vegetablesDaysSelected,
-    vegetablesServingsSelected: state.nutritionGoalsVegetables.vegetablesServingsSelected,
+    proteinServings: state.nutritionGoalsProtein.proteinServings,
+    proteinServingsSelected: state.nutritionGoalsProtein.proteinServingsSelected,
+    proteinDaysSelected: state.nutritionGoalsProtein.proteinDaysSelected
   };
 };
 
 export default connect(mapStateToProps,
-  { vegetablesDaysChanged,
-    vegetablesChanged,
-    goalsChanged
-  })(DaysListItem);
+  { proteinServingsChanged,
+    proteinChanged,
+    goalsChanged,
+  })(ServingsListItemProtein);

@@ -1,4 +1,5 @@
 export AddMinusButtons from './AddMinusButtons';
+export AnimatedIcon from './AnimatedIcon';
 export OneButton from './OneButton';
 export Progress from './Progress';
 export ProgressDaily from './ProgressDaily';
@@ -6,6 +7,9 @@ export BackButton from './BackButton';
 export ForwardButton from './ForwardButton';
 export HeaderSection from './HeaderSection';
 export ModalScreen from './ModalScreen';
+export DailyModal from './DailyModal';
+export DailyCompleted from './DailyCompleted';
+export CompletedModal from './CompletedModal';
 export Ratings from './Ratings';
 export GoalModalScreen from './GoalModalScreen';
 export DailyPress from './DailyPress';

@@ -7,7 +7,7 @@ import { nutritionChanged } from './nutritionActions';
 import { OneButton, AddMinusButtons,
   Progress, BackButton, HeaderSection } from '../../../components';
 import nutritionStyles from './nutritionStyles';
-//import { calculate } from './nutritionHelper';
+import { calculate } from './nutritionHelper';
 
 
 class NutritionQ8 extends Component {
@@ -34,8 +34,14 @@ class NutritionQ8 extends Component {
   onClick = () => {
     const { dairyWeek8 } = this.props;
     if (dairyWeek8 < 1) {
+      this.props.nutritionChanged({
+        prop: 'dairy', value: calculate('dairy', dairyWeek8)
+      });
       this.props.navigation.navigate('DairyQ');
     } else {
+    this.props.nutritionChanged({
+      prop: 'dairy', value: calculate('dairy', dairyWeek8)
+    });
     this.props.navigation.navigate('NutritionQ9');
     }
   }

@@ -1,7 +1,6 @@
-import { combineReducers } from 'redux';
+//import { combineReducers } from 'redux';
 import auth from './authReducer';
-import jobs from './jobsReducer';
-import likedJobs from './likesReducer';
+import user from './userReducer';
 import nutrition from './nutritionReducer';
 import goals from './goalsReducer';
 import nutritionGoalsVegetables from './NutritionGoals/nutritionGoalsVegetables';
@@ -10,11 +9,9 @@ import nutritionGoalsProtein from './NutritionGoals/nutritionGoalsProtein';
 import nutritionGoalsDairy from './NutritionGoals/nutritionGoalsDairy';
 import nutritionGoalsWater from './NutritionGoals/nutritionGoalsWater';
 
-
-export default combineReducers({
+export default ({
   auth,
-  jobs,
-  likedJobs,
+  user,
   nutrition,
   goals,
   nutritionGoalsVegetables,

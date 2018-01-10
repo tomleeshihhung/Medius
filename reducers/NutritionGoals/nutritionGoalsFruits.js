@@ -6,30 +6,30 @@ import {
   FRUITS_REMIND_ME_SELECTED_DELETE,
   FRUITS_DAYS_CHANGED,
   FRUITS_SERVINGS_CHANGED,
-} from '../../screens/GoalsList/goalsTypes';
+} from '../../screens/GoalsList/Nutrition/Fruits/goalsTypesFruits';
 
 const INITIAL_STATE = {
   RemindMe: '',
   fruitsDays: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: 'Daily', key: 6, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
   ],
-  fruitsDaysSelected: 'Daily',
+  fruitsDaysSelected: 7,
 
   fruitsServings: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: '7', key: 6, selected: 'false' },
-  { title: '8', key: 7, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
+  { title: 8, key: 7, selected: 'false' },
   ],
   fruitsServingsSelected: '',
 

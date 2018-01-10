@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import {
+  Text, View, StyleSheet, Dimensions, TouchableOpacity, FlatList, Platform } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { responsiveFontSize, responsiveWidth } from 'react-native-responsive-dimensions';
 //import { Icon } from 'react-native-elements';
-import { GoalModalScreen } from '../../components';
-import { RemindMeListItem, ServingsListItem, DaysListItem } from './Nutrition/Vegetables';
-import { vegetablesChanged } from './Nutrition/Vegetables/goalsActions';
-import { goalsChanged, dailyGoalAdd } from './goalsActions';
+import { GoalModalScreen } from '../../../../components';
+import {
+  RemindMeListItemDairy, ServingsListItemDairy, DaysListItemDairy
+} from '../../Nutrition/Dairy';
+import { dairyChanged } from './goalsActionsDairy';
+import { goalsChanged, dailyGoalAdd } from '../../goalsActions';
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 6;
+const SCREEN_HEIGHT = Dimensions.get('window').height - 20;
+const LIST_HEIGHT =
+Platform.OS === 'android' ? (SCREEN_HEIGHT - 189) / 8 : (SCREEN_HEIGHT - 172) / 8;
 
 const todayDate = moment(new Date()).format('YYYY-MM-DD');
 
-class NewGoalsListItem extends Component {
+class NewGoalsListItemDairy extends Component {
   state = { showModalDayPicker: false, goalModalHeight: '75%', date: '12:00' };
   onPress = async () => {
     if (this.props.data.option === 'Days a week') {
@@ -23,9 +28,6 @@ class NewGoalsListItem extends Component {
       this.setState({ showModalDayPicker: true });
     }
     if (this.props.data.option === 'Remind me') {
-      this.setState({ showModalDayPicker: true });
-    }
-    if (this.props.data.option === 'Servings a day') {
       this.setState({ goalModalHeight: '68%' });
       this.setState({ showModalDayPicker: true });
     }
@@ -36,17 +38,25 @@ class NewGoalsListItem extends Component {
     if (this.props.data.option === 'Start Goal') {
       const count = this.props.dailyGoal.length;
       this.props.dailyGoalAdd({
-      title: 'Vegetables',
-      day: this.props.vegetablesDaysSelected,
-      serving: this.props.vegetablesServingsSelected,
-      remindMe: this.props.vegetablesRemindMeSelected,
+      title: 'Dairy',
+      day: this.props.dairyDaysSelected,
+      remindMe: this.props.dairyRemindMeSelected,
       friends: 0,
-      startDate: '2017-12-17',
+      startDate: todayDate,
       daysLeft: 14,
       key: count,
       completed: [],
       incomplete: [],
+      points: 0,
+      finished: false,
       });
+      this.props.goalsChanged({ prop: 'dailyDay', value: todayDate });
+      this.props.parentNavigation.dispatch(NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({ routeName: 'GoalsTab' })
+          ]
+      }));
       this.props.parentNavigation.navigate('Daily');
     }
   }
@@ -66,7 +76,7 @@ class NewGoalsListItem extends Component {
            width: '45%',
            justifyContent: 'center'
          }}
-         date={this.props.vegetablesAt}
+         date={this.props.dairyAt}
          customStyles={{ dateInput: { borderWidth: 0 }, dateText: styles.datePickerTextStyle }}
          mode="time"
          showIcon={false}
@@ -74,7 +84,7 @@ class NewGoalsListItem extends Component {
          confirmBtnText="Set time"
          cancelBtnText="Cancel"
          onDateChange={
-           (date) => { this.props.vegetablesChanged({ prop: 'vegetablesAt', value: date }); }}
+           (date) => { this.props.dairyChanged({ prop: 'dairyAt', value: date }); }}
          ref={(picker) => { this.datePicker = picker; }}
         />
         <Text style={this.startGoalCheckChevron()}>></Text>
@@ -83,7 +93,9 @@ class NewGoalsListItem extends Component {
     }
     return (
       <View style={styles.subContainer2}>
-        <Text style={styles.setGoalTextStyle}>{this.props.data.value}</Text>
+        <Text
+        style={styles.setGoalTextStyle}
+        >{this.props.data.value === 7 ? 'Daily' : this.props.data.value}</Text>
         <Text style={this.startGoalCheckChevron()}>></Text>
       </ View>
     );
@@ -103,23 +115,9 @@ class NewGoalsListItem extends Component {
       return (
         <View style={{ height: '100%', width: '100%', justifyContent: 'flex-start' }}>
         <FlatList
-          data={this.props.vegetablesRemindMe}
+          data={this.props.dairyRemindMe}
           extraData={this.props}
           renderItem={this.renderItemRemindMe}
-          keyExtractor={(item) => item.key}
-          ItemSeparatorComponent={this.flatListItemSeparator}
-          scrollEnabled={false}
-        />
-      </View>
-      );
-    }
-    if (this.props.data.option === 'Servings a day') {
-      return (
-        <View style={{ height: '100%', width: '100%', justifyContent: 'flex-start' }}>
-        <FlatList
-          data={this.props.vegetablesServings}
-          extraData={this.props}
-          renderItem={this.renderItemServings}
           keyExtractor={(item) => item.key}
           ItemSeparatorComponent={this.flatListItemSeparator}
           scrollEnabled={false}
@@ -131,7 +129,7 @@ class NewGoalsListItem extends Component {
       return (
         <View style={{ height: '100%', width: '100%', justifyContent: 'flex-start' }}>
         <FlatList
-          data={this.props.vegetablesDays}
+          data={this.props.dairyDays}
           extraData={this.props}
           renderItem={this.renderItemDays}
           keyExtractor={(item) => item.key}
@@ -155,7 +153,7 @@ class NewGoalsListItem extends Component {
   }
   renderItemRemindMe(list) {
        return (
-       <RemindMeListItem
+       <RemindMeListItemDairy
           data={list.item}
           onPress={this.onPress1}
         //  key={list.key}
@@ -164,7 +162,7 @@ class NewGoalsListItem extends Component {
   }
   renderItemDays(list) {
        return (
-       <DaysListItem
+       <DaysListItemDairy
           data={list.item}
           onPress={this.onPress1}
         //  key={list.key}
@@ -173,7 +171,7 @@ class NewGoalsListItem extends Component {
   }
   renderItemServings(list) {
        return (
-       <ServingsListItem
+       <ServingsListItemDairy
           data={list.item}
           onPress={this.onPress1}
         //  key={list.key}
@@ -219,6 +217,7 @@ const styles = StyleSheet.create({
     height: LIST_HEIGHT,
     flexDirection: 'row',
     backgroundColor: 'white',
+  //  backgroundColor: 'rgba(0,0,0,0.5)'
   //  paddingLeft: 30,
   //  paddingRight: 30,
   },
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
     paddingRight: responsiveWidth(5)
   },
   datePickerTextStyle: {
@@ -281,7 +280,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
 
   textStyle: {
@@ -290,7 +289,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#3C3E47',
-    fontWeight: '500',
+
   },
   startGoalTextStyle: {
     fontSize: responsiveFontSize(2.6),
@@ -298,7 +297,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#19A6FF',
-    fontWeight: '500',
+
   },
   startGoalchevronStyle: {
     fontSize: responsiveFontSize(2.5),
@@ -306,7 +305,6 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#19A6FF',
-    fontWeight: '500',
   },
   chevronStyle: {
     fontSize: responsiveFontSize(2.4),
@@ -314,7 +312,6 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#3C3E47',
-    fontWeight: '500',
   },
   subTextStyle: {
     fontSize: responsiveFontSize(2),
@@ -334,16 +331,18 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
   return {
-    vegetablesRemindMe: state.nutritionGoalsVegetables.vegetablesRemindMe,
-    vegetablesRemindMeSelected: state.nutritionGoalsVegetables.vegetablesRemindMeSelected,
-    vegetablesDays: state.nutritionGoalsVegetables.vegetablesDays,
-    vegetablesDaysSelected: state.nutritionGoalsVegetables.vegetablesDaysSelected,
-    vegetablesServings: state.nutritionGoalsVegetables.vegetablesServings,
-    vegetablesServingsSelected: state.nutritionGoalsVegetables.vegetablesServingsSelected,
-    vegetablesAt: state.nutritionGoalsVegetables.vegetablesAt,
+    dairyRemindMe: state.nutritionGoalsDairy.dairyRemindMe,
+    dairyRemindMeSelected: state.nutritionGoalsDairy.dairyRemindMeSelected,
+    dairyDays: state.nutritionGoalsDairy.dairyDays,
+    dairyDaysSelected: state.nutritionGoalsDairy.dairyDaysSelected,
+    dairyServings: state.nutritionGoalsDairy.dairyServings,
+    dairyServingsSelected: state.nutritionGoalsDairy.dairyServingsSelected,
+    dairyAt: state.nutritionGoalsDairy.dairyAt,
     parentNavigation: state.goals.parentNavigation,
     dailyGoal: state.goals.dailyGoal,
   };
 };
 
-export default connect(mapStateToProps, { vegetablesChanged, goalsChanged, dailyGoalAdd })(NewGoalsListItem);
+export default connect(mapStateToProps, {
+  dairyChanged, goalsChanged, dailyGoalAdd
+})(NewGoalsListItemDairy);

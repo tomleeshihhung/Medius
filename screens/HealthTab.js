@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
-import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
-import { HeaderSection, ModalScreen, Ratings } from '../components';
+import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { ModalScreen, Ratings } from '../components';
 import { nutritionChanged } from './Qs/NutritionQs/nutritionActions';
-import baseStyles from './baseStyles';
 import ListItem from './ListItem';
-
 /*
 
   export const facebookLogin = () => async dispatch => {
     const token = await AsyncStorage.getItem('fb_token');
     */
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 class HealthTab extends Component {
+  static log() {
+    console.log('success yooo');
+  }
+  static navigationOptions = {
+    title: 'Health',
+    headerStyle: {
+      backgroundColor: '#3abdee',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      borderWidth: 0,
+      borderBottomWidth: 0,
+    },
+    headerTitleStyle: {
+      color: '#fff',
+      fontFamily: 'circular-bold',
+      fontSize: responsiveFontSize(2.4),
+    }
+  };
+
   state = { showModal: false };
 
-  onPress = (key) => {
-    this.props.navigation.navigate(key);
+  onPress = (key, status) => {
+    if (status === 'Take the quiz') {
+    this.props.navigation.navigate('NutritionQs');
+    } else {
+      this.props.navigation.navigate(key);
+    }
   }
   done = () => {
   this.setState({ showModal: false });
@@ -24,6 +51,7 @@ class HealthTab extends Component {
   show = () => {
   this.setState({ showModal: true });
   }
+
 
   flatListItemSeparator = () => {
     return (
@@ -45,7 +73,7 @@ class HealthTab extends Component {
         name='info'
         type='feather'
         color={'#3C3E47'}
-        size={25}
+        size={responsiveWidth(6.5)}
         component={TouchableOpacity}
       //  containerStyle={styles.iconContainerViewStyle}
         onPress={this.show}
@@ -56,57 +84,60 @@ class HealthTab extends Component {
   render() {
     const data = [
       { title: 'Sugar',
-        status: 'Take the quiz',
+        navigate: 'HealthSugar',
+        status: 'Coming soon',
         key: 1
       },
       { title: 'Nutrition',
+        navigate: 'HealthNutrition',
         status: this.props.nutritionFinal.status,
         key: 2
         //`${this.props.nutritionFinal.status}`,
       },
       { title: 'Exercise',
-        status: 'Take the quiz',
+        navigate: 'HealthExercise',
+        status: 'Coming soon',
         key: 3
       },
       { title: 'Sleep',
-        status: 'Take the quiz',
+        navigate: 'HealthSleep',
+        status: 'Coming soon',
         key: 4
       },
       { title: 'Mood',
-        status: 'Take the quiz',
+        navigate: 'HealthMood',
+        status: 'Coming soon',
         key: 5
       },
       { title: 'Alcohol & Smoking',
-        status: 'Take the quiz',
+      navigate: 'HealthAandS',
+        status: 'Coming soon',
         key: 6
       },
     ];
-    const { container, contentContainer } = baseStyles;
+
     const renderItem = (list) => {
        return (
        <ListItem
        data={list.item}
-       onPress={() => this.onPress(list.item.title)}
+       onPress={() => this.onPress(list.item.navigate, list.item.status)}
        />
      );
     };
     return (
 
-      <View style={container}>
-
-      <HeaderSection
-      subHeaderText='Health'
-      subHeaderRight={this.icon()}
-      subSubHeaderText='Overview of your health habits'
-  //    center='hello'
-      />
-        <View style={contentContainer}>
+      <View style={styles.container}>
+        <View style={{ height: 44, justifyContent: 'center', paddingLeft: 20 }}>
+        <Text style={styles.textStyle}> Overview of your health habits </Text>
+        </View>
+        <View style={styles.contentContainer}>
           <FlatList
               data={data}
               renderItem={renderItem}
               keyExtractor={(item) => item.key}
               ItemSeparatorComponent={this.flatListItemSeparator}
               scrollEnabled={false}
+              style={{ borderRadius: 10 }}
           />
           <ModalScreen
             visible={this.state.showModal}
@@ -142,7 +173,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
 //    backgroundColor: 'orange'
-  }
+},
+textStyle: {
+  fontSize: responsiveFontSize(2),
+//  paddingTop: '10%',
+//  paddingBottom: '10%',
+  fontFamily: 'circular-bold',
+  color: '#6D707D',
+},
+container: {
+  flex: 1,
+  justifyContent: 'center',
+//  paddingTop: Platform.OS === 'android' ? 20 : Constants.statusBarHeight,
+//  paddingLeft: 30,
+//  paddingRight: 30,
+  backgroundColor: '#FAFBFC'
+},
+contentContainer: {
+  height: (SCREEN_HEIGHT - 122) * 0.8,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.1,
+  shadowRadius: 3,
+  borderWidth: 0,
+  borderRadius: 10,
+  margin: 20,
+  marginTop: 0,
+//  paddingLeft: 10,
+//  paddingRight: 10,
+  backgroundColor: 'white',
+},
 
 
 });

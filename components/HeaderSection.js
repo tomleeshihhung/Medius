@@ -1,18 +1,19 @@
+import { Constants } from 'expo';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 
 //const hello1 = 'An overview of your health habits';
-const HeaderSection = ({ center, left, right, style,
+const HeaderSection = ({ center, left, right, style, fontStyle,
   subHeaderText, subSubHeaderText, subHeaderRight }) => {
   const subHeaderSection = (big, small) => {
     if (big) {
       return (
-        <View style={styles.subHeaderSection}>
+        <View style={[styles.subHeaderSection, style]}>
           <View style={styles.subSubHeaderSection1}>
-             <Text style={styles.subTextStyle}>{big}</Text>
-             <Text style={[styles.subSubTextStyle, { paddingTop: 5 }]}>{small}</Text>
+             <Text style={[styles.subTextStyle, fontStyle]}>{big}</Text>
+             <Text style={[styles.subSubTextStyle, fontStyle, { paddingTop: 5 }]}>{small}</Text>
           </View>
           <View style={styles.subSubHeaderSection2}>
              {subHeaderRight}
@@ -42,13 +43,17 @@ const styles = StyleSheet.create({
     height: 44,
     paddingLeft: 25,
     paddingRight: 25,
-  //  backgroundColor: '#B0B3C2'
   },
   withSubHeader: {
-    height: 132,
+    height: 142,
     backgroundColor: 'white',
     paddingLeft: 25,
     paddingRight: 25,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   headerSection:
   {
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
   },
   subHeaderSection:
   {
-    height: 88,
+    height: 77,
     flexDirection: 'row',
   //  justifyContent: 'center',
   //  alignItems: 'flex-start',
@@ -73,13 +78,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    flex: 7,
+    flex: 8,
   },
   subSubHeaderSection2:
   {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     flex: 2,
     marginRight: -2,
   //  backgroundColor: 'red'
@@ -105,7 +110,6 @@ const styles = StyleSheet.create({
   textStyle:
   {
   fontSize: responsiveFontSize(2.2),
-  fontWeight: '500',
   paddingTop: 0,
   color: '#3C3E47'
   },

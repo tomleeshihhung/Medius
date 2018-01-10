@@ -1,15 +1,39 @@
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { HeaderSection, BackButton, Ratings, ModalScreen } from '../../components';
+import { responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { BackButton, Ratings, ModalScreen } from '../../components';
 //import { vegeWeek1Changed } from '../../../actions';
-import HealthStyles from './HealthStyles';
-import NutritionListItem from './NutritionListItem';
+import HealthStyles from './CompletedStyles';
+import HealthNutritionListItem from './CompletedNutritionListItem';
 
 
-class Nutrition extends Component {
+class CompletedNutrition extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Nutrition',
+    headerLeft:
+    <BackButton
+    onPress={() => navigation.goBack(null)}
+    color='white'
+    containerStyle={{ paddingLeft: 20, marginLeft: 0, paddingTop: 5 }}
+    />,
+    headerStyle: {
+      backgroundColor: '#3abdee',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.2,
+      shadowRadius: 2,
+      borderWidth: 0,
+      borderBottomWidth: 0,
+    },
+
+    headerTitleStyle: {
+      color: '#fff',
+      fontFamily: 'circular-bold',
+      fontSize: responsiveFontSize(2.4),
+    }
+  });
   state = { showModal: false };
   onPress = () => {
     this.props.navigation.navigate('Goals');
@@ -23,14 +47,23 @@ class Nutrition extends Component {
 
   icon = () => {
     return (
-      <View>
+      <View style={{ flexDirection: 'row' }}>
+      <Icon
+        name='refresh-cw'
+        type='feather'
+        color={'#3C3E47'}
+        size={responsiveWidth(6.5)}
+        component={TouchableOpacity}
+        containerStyle={{ paddingRight: responsiveWidth(6.5) }}
+        onPress={this.show}
+      />
       <Icon
         name='info'
         type='feather'
         color={'#3C3E47'}
-        size={25}
+        size={responsiveWidth(6.5)}
         component={TouchableOpacity}
-    //    containerStyle={iconContainerViewStyle}
+      //  containerStyle={{ paddingRight: responsiveWidth(6) }}
         onPress={this.show}
       />
       </View>
@@ -61,7 +94,7 @@ class Nutrition extends Component {
         subTitle: `${vegeWeek1} days a week, `,
         subSubTitle: `${vegeDay2} servings a day`,
         status: vegetables.status },
-      { title: 'Fruit',
+      { title: 'Fruits',
         subTitle: `${fruitWeek3} days a week, `,
         subSubTitle: `${fruitDay4} servings a day`,
         status: fruits.status },
@@ -78,23 +111,18 @@ class Nutrition extends Component {
         status: water.status },
     ];
     const { container, contentContainer } = HealthStyles;
-    const { dispatch, /* navigate  */} = this.props.navigation;
-    const backAction = NavigationActions.back({ key: null });
+
     const renderItem = (list) => {
-       return <NutritionListItem data={list.item} onPress={this.onPress} />;
+       return <HealthNutritionListItem data={list.item} onPress={this.onPress} />;
     };
 
     return (
       <View style={container}>
-      <HeaderSection
-      left={<BackButton onPress={() => dispatch(backAction)} color='#3C3E47' />}
-      subHeaderText='Nutrition'
-      subHeaderRight={this.icon()}
-      subSubHeaderText='Overview of your health habits'
-      />
 
+      <View style={{ height: 44, justifyContent: 'center', paddingLeft: 20 }}>
+      <Text style={styles.textStyle}> Overview of your health habits </Text>
+      </View>
         <View style={contentContainer}>
-        <View style={{ height: 0 }} />
           <FlatList
               data={data}
               renderItem={renderItem}
@@ -144,8 +172,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
 //    backgroundColor: 'orange'
-  }
+},
+
+textStyle: {
+  fontSize: responsiveFontSize(2),
+//  paddingTop: '10%',
+//  paddingBottom: '10%',
+  fontFamily: 'circular-bold',
+  color: '#6D707D',
+},
 
 });
 
-export default connect(mapStateToProps, {})(Nutrition);
+export default connect(mapStateToProps, {})(CompletedNutrition);

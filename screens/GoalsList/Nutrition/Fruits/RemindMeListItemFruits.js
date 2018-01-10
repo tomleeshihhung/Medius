@@ -1,97 +1,100 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
-import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import {
-  vegetablesRemindMeChanged, vegetablesRemindMeSelectedAdd,
-  vegetablesRemindMeSelectedDelete, vegetablesChanged
-} from './goalsActions';
+  fruitsRemindMeChanged, fruitsRemindMeSelectedAdd,
+  fruitsRemindMeSelectedDelete, fruitsChanged
+} from './goalsActionsFruits';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 10;
-class RemindMeListItem extends Component {
+const MODAL_HEIGHT = SCREEN_HEIGHT * 0.68 - 20;
+const IOS_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.2)) / 9;
+const ANDROID_LIST_HEIGHT = (MODAL_HEIGHT - ((MODAL_HEIGHT) * 0.25)) / 9;
+const LIST_HEIGHT = Platform.OS === 'android' ? ANDROID_LIST_HEIGHT : IOS_LIST_HEIGHT;
+class RemindMeListItemFruits extends Component {
   state = { selectedList: [] }
 
   onPress = async () => {
     //this.addDeleteSelectedDays();
-    const { vegetablesRemindMe, data } = this.props;
+    const { fruitsRemindMe, data } = this.props;
     const array = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     if (data.key === 0) {
       // When Daily is checked, all the days are checked
-      if (vegetablesRemindMe[data.key].selected === 'false') {
+      if (fruitsRemindMe[data.key].selected === 'false') {
         await array.map((obj, i) => {
-          return this.props.vegetablesRemindMeChanged({ key: i, value: 'true' });
+          return this.props.fruitsRemindMeChanged({ key: i, value: 'true' });
         });
-        await this.props.vegetablesRemindMeChanged({ key: 8, value: 'false' });
+        await this.props.fruitsRemindMeChanged({ key: 8, value: 'false' });
       } else {
         await array.map((obj, i) => {
-          return this.props.vegetablesRemindMeChanged({ key: i, value: 'false' });
+          return this.props.fruitsRemindMeChanged({ key: i, value: 'false' });
         });
       }
     } else if
-      (vegetablesRemindMe[data.key].selected === 'false') {
+      (fruitsRemindMe[data.key].selected === 'false') {
         // When the last unchecked day is checked, Daily becomes checked too
-        const result = vegetablesRemindMe.filter(word => word.selected !== 'true');
+        const result = fruitsRemindMe.filter(word => word.selected !== 'true');
         if (result[0].key === 0 && result[1].key === data.key && result.length === 3) {
           await array.map((obj, i) => {
-          return this.props.vegetablesRemindMeChanged({ key: i, value: 'true' });
+          return this.props.fruitsRemindMeChanged({ key: i, value: 'true' });
           });
-          await this.props.vegetablesRemindMeChanged({ key: 8, value: 'false' });
+          await this.props.fruitsRemindMeChanged({ key: 8, value: 'false' });
         } else if (data.key === 8) {
           await array.map((obj, i) => {
-          return this.props.vegetablesRemindMeChanged({ key: i, value: 'false' });
+          return this.props.fruitsRemindMeChanged({ key: i, value: 'false' });
           });
-          await this.props.vegetablesRemindMeChanged({ key: (data.key), value: 'true' });
+          await this.props.fruitsRemindMeChanged({ key: (data.key), value: 'true' });
         } else {
-        await this.props.vegetablesRemindMeChanged({ key: (data.key), value: 'true' });
-        await this.props.vegetablesRemindMeChanged({ key: 8, value: 'false' });
+        await this.props.fruitsRemindMeChanged({ key: (data.key), value: 'true' });
+        await this.props.fruitsRemindMeChanged({ key: 8, value: 'false' });
         }
     } else {
-      const result = vegetablesRemindMe.filter(word => word.selected === 'true');
+      const result = fruitsRemindMe.filter(word => word.selected === 'true');
       //When Daily becomes unchecked, everything unchecks
         if (result.length === 8) {
-        await this.props.vegetablesRemindMeChanged({ key: (data.key), value: 'false' });
-        await this.props.vegetablesRemindMeChanged({ key: 0, value: 'false' });
+        await this.props.fruitsRemindMeChanged({ key: (data.key), value: 'false' });
+        await this.props.fruitsRemindMeChanged({ key: 0, value: 'false' });
       } else {
-        await this.props.vegetablesRemindMeChanged({ key: (data.key), value: 'false' });
+        await this.props.fruitsRemindMeChanged({ key: (data.key), value: 'false' });
       }
     }
     this.remindMeSelectedDays();
   }
   remindMeSelectedDays = () => {
-    this.props.vegetablesChanged({ prop: 'vegetablesRemindMeSelected', value: [] });
-    const { vegetablesRemindMe } = this.props;
-    const result = vegetablesRemindMe.filter(word => word.selected === 'true');
+    this.props.fruitsChanged({ prop: 'fruitsRemindMeSelected', value: [] });
+    const { fruitsRemindMe } = this.props;
+    const result = fruitsRemindMe.filter(word => word.selected === 'true');
     if (result.length === 8) {
-      this.props.vegetablesRemindMeSelectedAdd('Daily');
+      this.props.fruitsRemindMeSelectedAdd('Daily');
       return;
     }
-    vegetablesRemindMe.map((obj) => {
+    fruitsRemindMe.map((obj) => {
       if (obj.selected === 'true') {
         if (obj.key === 1) {
-          this.props.vegetablesRemindMeSelectedAdd('M');
+          this.props.fruitsRemindMeSelectedAdd('M');
         }
         if (obj.key === 2) {
-          this.props.vegetablesRemindMeSelectedAdd(' Tu');
+          this.props.fruitsRemindMeSelectedAdd(' Tu');
         }
         if (obj.key === 3) {
-          this.props.vegetablesRemindMeSelectedAdd(' W');
+          this.props.fruitsRemindMeSelectedAdd(' W');
         }
         if (obj.key === 4) {
-          this.props.vegetablesRemindMeSelectedAdd(' Th');
+          this.props.fruitsRemindMeSelectedAdd(' Th');
         }
         if (obj.key === 5) {
-          this.props.vegetablesRemindMeSelectedAdd(' F');
+          this.props.fruitsRemindMeSelectedAdd(' F');
         }
         if (obj.key === 6) {
-          this.props.vegetablesRemindMeSelectedAdd(' Sa');
+          this.props.fruitsRemindMeSelectedAdd(' Sa');
         }
         if (obj.key === 7) {
-          this.props.vegetablesRemindMeSelectedAdd(' Su');
+          this.props.fruitsRemindMeSelectedAdd(' Su');
         }
         if (obj.key === 8) {
-          this.props.vegetablesRemindMeSelectedAdd('None');
+          this.props.fruitsRemindMeSelectedAdd('None');
         }
       }
       return null;
@@ -198,7 +201,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   chevronStyle: {
     fontSize: responsiveFontSize(2.2),
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#6D707D',
-    fontWeight: '500',
+
   },
   subTextStyle: {
     fontSize: responsiveFontSize(2),
@@ -218,14 +221,14 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
   return {
-    vegetablesRemindMe: state.nutritionGoalsVegetables.vegetablesRemindMe,
-    vegetablesRemindMeSelected: state.nutritionGoalsVegetables.vegetablesRemindMeSelected
+    fruitsRemindMe: state.nutritionGoalsFruits.fruitsRemindMe,
+    fruitsRemindMeSelected: state.nutritionGoalsFruits.fruitsRemindMeSelected
   };
 };
 
 export default connect(mapStateToProps,
-  { vegetablesRemindMeChanged,
-    vegetablesRemindMeSelectedAdd,
-    vegetablesRemindMeSelectedDelete,
-    vegetablesChanged
-  })(RemindMeListItem);
+  { fruitsRemindMeChanged,
+    fruitsRemindMeSelectedAdd,
+    fruitsRemindMeSelectedDelete,
+    fruitsChanged
+  })(RemindMeListItemFruits);

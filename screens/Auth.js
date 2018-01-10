@@ -15,7 +15,7 @@ class Auth extends Component {
   }
 onAuthComplete(props) {
   if (props.token) {
-    this.props.navigation.navigate('Onboard');
+    this.props.navigation.navigate('Daily');
   } else {
     this.props.navigation.navigate('Welcome');
   }

@@ -1,18 +1,10 @@
 import {
-  GOALS_CHANGED,
   VEGETABLES_CHANGED,
   VEGETABLES_REMIND_ME_CHANGED,
   VEGETABLES_REMIND_ME_SELECTED_ADD,
   VEGETABLES_REMIND_ME_SELECTED_DELETE,
   VEGETABLES_DAYS_CHANGED,
   VEGETABLES_SERVINGS_CHANGED,
-
-  FRUITS_CHANGED,
-  FRUITS_REMIND_ME_CHANGED,
-  FRUITS_REMIND_ME_SELECTED_ADD,
-  FRUITS_REMIND_ME_SELECTED_DELETE,
-  FRUITS_DAYS_CHANGED,
-  FRUITS_SERVINGS_CHANGED,
 
   DAIRY_CHANGED,
   DAIRY_REMIND_ME_CHANGED,
@@ -34,14 +26,8 @@ import {
   WATER_REMIND_ME_SELECTED_DELETE,
   WATER_DAYS_CHANGED,
   WATER_SERVINGS_CHANGED,
-} from './goalsTypes';
+} from './goalsTypesVeg';
 
-export const goalsChanged = (payload) => {
-  return {
-    type: GOALS_CHANGED,
-    payload
-  };
-};
 export const vegetablesChanged = (payload) => {
   return {
     type: VEGETABLES_CHANGED,
@@ -78,45 +64,6 @@ export const vegetablesDaysChanged = (payload) => {
 export const vegetablesServingsChanged = (payload) => {
   return {
     type: VEGETABLES_SERVINGS_CHANGED,
-    payload
-  };
-};
-export const fruitsChanged = (payload) => {
-  return {
-    type: FRUITS_CHANGED,
-    payload
-  };
-};
-export const fruitsRemindMeChanged = (payload) => {
-  return {
-    type: FRUITS_REMIND_ME_CHANGED,
-    payload
-  };
-};
-
-export const fruitsRemindMeSelectedAdd = (payload) => {
-  return {
-    type: FRUITS_REMIND_ME_SELECTED_ADD,
-    payload
-  };
-};
-
-export const fruitsRemindMeSelectedDelete = (payload) => {
-  return {
-    type: FRUITS_REMIND_ME_SELECTED_DELETE,
-    payload
-  };
-};
-
-export const fruitsDaysChanged = (payload) => {
-  return {
-    type: FRUITS_DAYS_CHANGED,
-    payload
-  };
-};
-export const fruitsServingsChanged = (payload) => {
-  return {
-    type: FRUITS_SERVINGS_CHANGED,
     payload
   };
 };

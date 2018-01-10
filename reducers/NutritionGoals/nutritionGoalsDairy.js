@@ -5,34 +5,20 @@ import {
   DAIRY_REMIND_ME_SELECTED_ADD,
   DAIRY_REMIND_ME_SELECTED_DELETE,
   DAIRY_DAYS_CHANGED,
-  DAIRY_SERVINGS_CHANGED,
-} from '../../screens/GoalsList/goalsTypes';
+} from '../../screens/GoalsList/Nutrition/Dairy/goalsTypesDairy';
 
 const INITIAL_STATE = {
   RemindMe: '',
   dairyDays: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: 'Daily', key: 6, selected: 'false' },
+  { title: 1, key: 0, selected: 'false' },
+  { title: 2, key: 1, selected: 'false' },
+  { title: 3, key: 2, selected: 'false' },
+  { title: 4, key: 3, selected: 'false' },
+  { title: 5, key: 4, selected: 'false' },
+  { title: 6, key: 5, selected: 'false' },
+  { title: 7, key: 6, selected: 'false' },
   ],
-  dairyDaysSelected: 'Daily',
-
-  dairyServings: [
-  { title: '1', key: 0, selected: 'false' },
-  { title: '2', key: 1, selected: 'false' },
-  { title: '3', key: 2, selected: 'false' },
-  { title: '4', key: 3, selected: 'false' },
-  { title: '5', key: 4, selected: 'false' },
-  { title: '6', key: 5, selected: 'false' },
-  { title: '7', key: 6, selected: 'false' },
-  { title: '8', key: 7, selected: 'false' },
-  ],
-  dairyServingsSelected: '',
-
+  dairyDaysSelected: 7,
   dairyRemindMe: [
   { title: 'Daily', key: 0, selected: 'false' },
   { title: 'Monday', key: 1, selected: 'false' },
@@ -75,14 +61,6 @@ export default (state = INITIAL_STATE, action) => {
     case DAIRY_DAYS_CHANGED:
     return update(state, {
       dairyDays: {
-        [action.payload.key]: {
-          selected: { $set: action.payload.value }
-        },
-      }
-    });
-    case DAIRY_SERVINGS_CHANGED:
-    return update(state, {
-      dairyServings: {
         [action.payload.key]: {
           selected: { $set: action.payload.value }
         },

@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { Icon } from 'react-native-elements';
-import { ModalScreen } from '../../components';
+import { ModalScreen } from '../../../components';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-const LIST_HEIGHT = (SCREEN_HEIGHT - 213) / 5;
+const LIST_HEIGHT = ((SCREEN_HEIGHT - 166) * 0.9) / 5;
 
-class NutritionListItem extends Component {
+class GoalsNutritionListItem extends Component {
   state = { showModalBenefits: false, showModalFriends: false };
 
   doneBenefits = () => {
@@ -162,31 +162,24 @@ const styles = StyleSheet.create({
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#19A6FF',
-    fontWeight: '500',
+
   },
   chevronStyle: {
-    fontSize: responsiveFontSize(2.2),
+    fontSize: responsiveFontSize(2.5),
     fontFamily: 'circular',
   //  paddingTop: '10%',
   //  paddingBottom: '10%',
     color: '#3C3E47',
-    fontWeight: '500',
+
   },
   subTextStyle: {
-    fontSize: responsiveFontSize(2),
+    fontSize: responsiveFontSize(1.9),
     fontFamily: 'circular',
   //  paddingTop: '3%',
   //  paddingBottom: '10%',
-    color: '#6D707D',
+    color: '#3C3E47',
   },
-  healthStyle: {
-    fontSize: responsiveFontSize(2.2),
-    paddingTop: '10%',
-    paddingBottom: '10%',
-    fontFamily: 'circular',
-  //  color: checkColor(),
-    paddingRight: 25
-  }
+
 });
 
-export default NutritionListItem;
+export default GoalsNutritionListItem;

@@ -26,8 +26,6 @@ const styles = StyleSheet.create({
     marginLeft: -13,
     paddingLeft: 0,
     paddingTop: 3,
-  //  backgroundColor: 'red'
-  //  justifyContent: 'flex-start'
   },
 });
 export default BackButton;

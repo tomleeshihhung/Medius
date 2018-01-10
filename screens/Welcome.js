@@ -48,7 +48,7 @@ class Welcome extends Component {
           buttonStyle={buttonStyle}
           textStyle={{ textAlign: 'center' }}
           title={'Log in with Facebook'}
-          onPress={() => this.props.navigation.navigate('Auth')}
+          onPress={() => this.props.navigation.navigate('Daily')}
         />
         </View>
       </View>

@@ -1,5 +1,5 @@
 export Sugar from './Sugar';
-export Nutrition from './Nutrition';
+export HealthNutrition from './HealthNutrition';
 export Exercise from './Exercise';
 export Sleep from './Sleep';
 export Mood from './Mood';

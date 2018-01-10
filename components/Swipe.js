@@ -49,7 +49,7 @@ class Swipe extends Component {
   }
 
   componentWillUpdate() {
-    UIManager.setLayoutAnimationEnabledExperimental
+    UIManager.setLayoutAnimationEnabledExperimental // eslint-disable-line
     && UIManager.setLayoutAnimationEnabledExperimental(true);
     LayoutAnimation.spring();
   }
@@ -59,8 +59,7 @@ class Swipe extends Component {
     const { onSwipeLeft, onSwipeRight, data } = this.props;
     const item = data[this.state.index];
 
-    direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item);
-    this.state.position.setValue({ x: 0, y: 0 });
+    direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item); // eslint-disable-line
     this.setState({ index: this.state.index + 1 });
   }
 
